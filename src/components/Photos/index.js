@@ -2,36 +2,36 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getPhotos } from "../store/photos/photos.action";
 
-import { Loader } from "./styles";
+import { Loader, ListItemStyle } from "./styles";
 
 const List = ({ data }) => {
   let items = data.map(photo => <ListItem key={photo.id} photo={photo} />);
 
-  return <div>{items}</div>;
+  return <ListItemStyle>{items}</ListItemStyle>;
 };
 
 const ListItem = ({ photo }) => {
   return (
-    <div key={photo.id}>
+    <figure className="photo-item" key={photo.id}>
       <img src={photo.urls.small} alt={photo.description} />
-    </div>
+    </figure>
   );
 };
 
 class Photos extends Component {
   componentDidMount() {
-    this.props.getPhotos(1, 20);
+    this.props.getPhotos(1, 50);
   }
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         {this.props.loading === false ? (
           <List data={this.props.photos} />
         ) : (
           <Loader />
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }

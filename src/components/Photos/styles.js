@@ -1,5 +1,33 @@
 import styled from "styled-components";
 
+export const ListItemStyle = styled.div`
+  figure {
+    margin-block-end: 0;
+    margin-block-start: 0;
+    margin-inline-end: 0;
+    margin-inline-start: 0;
+  }
+  column-width: 320px;
+  column-gap: 25px;
+  width: 90%;
+  margin: 0px auto;
+
+  .photo-item {
+    margin-bottom: 10px;
+    transition: transform 0.5s;
+  }
+
+  .photo-item:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+  }
+
+  .photo-item img {
+    text-align: center;
+    border-radius: 10px;
+  }
+`;
+
 export const Loader = styled.div`
   position: fixed;
   z-index: 9;
@@ -26,7 +54,6 @@ export const Loader = styled.div`
     width: 1em;
     height: 1em;
     border: 2px solid #ccc;
-    /* border-top-color: #ea4c89; */
     border-top-color: slategray;
     border-radius: 50%;
     animation: spinner 1s linear infinite;

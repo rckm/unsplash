@@ -37,11 +37,10 @@ class Photos extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    loading: state.loading,
-    error: state.error,
-    photos: state.photos
+    loading: state.photos.loading,
+    error: state.photos.error,
+    photos: state.photos.photos
   };
 };
 

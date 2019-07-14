@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+// import { Link } from "react-router-dom";
 import { getPhotos } from "../store/photos/photos.action";
+// import PhotosContent from "./PhotosContent";
 
 import { Loader, ListItemStyle } from "./styles";
 
@@ -37,10 +39,11 @@ class Photos extends Component {
 }
 
 const mapStateToProps = state => {
+  const { loading, error, photos } = state.photos;
   return {
-    loading: state.photos.loading,
-    error: state.photos.error,
-    photos: state.photos.photos
+    loading: loading,
+    error: error,
+    photos: photos
   };
 };
 

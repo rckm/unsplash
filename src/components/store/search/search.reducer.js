@@ -1,8 +1,8 @@
 import { SEARCH_FAILURE, SEARCH_REQUEST, SEARCH_SUCCESS } from "../constants";
 
 const initialState = {
-  loading: true,
-  error: null,
+  searchLoading: true,
+  searchError: null,
   results: []
 };
 
@@ -11,25 +11,23 @@ export default function search(state = initialState, action) {
     case SEARCH_REQUEST:
       return {
         ...state,
-        loading: true,
-        error: null
+        searchLoading: true,
+        searchError: null
       };
     case SEARCH_SUCCESS:
       return {
         ...state,
-        loading: false,
-        error: null,
+        searchLoading: false,
+        searchError: null,
         results: action.results
       };
     case SEARCH_FAILURE:
       return {
         ...state,
-        loading: false,
-        error: action.payload
+        searchLoading: false,
+        searchError: action.error
       };
     default:
-      return {
-        state
-      };
+      return state;
   }
 }

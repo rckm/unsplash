@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+export const PhotosContentStyle = styled.div`
+  position: fixed;
+  width: 30%;
+  background-color: #e3e3e3;
+`;
+
 export const ListItemStyle = styled.div`
   figure {
     margin-block-end: 0;
@@ -9,9 +15,8 @@ export const ListItemStyle = styled.div`
   }
   column-width: 320px;
   column-gap: 25px;
-  width: 90%;
+  width: 100%;
   margin: 0px auto;
-
   .photo-item {
     margin-bottom: 10px;
     transition: transform 0.5s;
@@ -25,6 +30,7 @@ export const ListItemStyle = styled.div`
   .photo-item img {
     text-align: center;
     border-radius: 10px;
+    width: 100%;
   }
 `;
 

@@ -11,7 +11,9 @@ export function getPhotos(page, perPage) {
       .listPhotos(page, perPage)
       .then(res => res.json())
       .then(res => {
-        dispatch(photosSuccess([...res]));
+        if (res) {
+          dispatch(photosSuccess([...res]));
+        }
       })
       .catch(error => {
         dispatch(photosFailure(error));

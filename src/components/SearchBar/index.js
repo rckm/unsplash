@@ -1,64 +1,62 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getSearchResult } from "../store/search/search.action";
+import { ListItemStyle } from "../Photos/styles";
+import Suggestions from "./Suggestions";
+import Photos from "../Photos";
 
-import { SearchInput } from "./style";
-
-const Suggestions = props => {
-  const options = props.results.map(result => (
-    <li key={result.id}>{result.links.html}</li>
-  ));
-
-  return <ul>{options}</ul>;
-};
+import { SearchInput, SearchButton, Form } from "./style";
 
 class SearchBar extends Component {
   state = {
-    query: ""
+    query: "",
+    searching: false
   };
 
   handleInputChange = e => {
-    this.setState(
-      {
-        query: e.target.value
-      },
-      () => {
-        if (this.state.query && this.state.query.length > 1) {
-          if (this.state.query.length % 2 === 0) {
-            this.props.getSearchResult(this.state.query, 1, 10);
-          }
-        } else if (!this.state.query) {
-        }
-      }
-    );
+    this.setState({
+      query: e.target.value
+    });
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+    this.setState({
+      searching: true
+    });
+    this.props.getSearchResult(this.state.query, 1, 20);
   };
 
   render() {
+    const { searching } = this.state;
     return (
-      <>
-        <form>
+      <React.Fragment>
+        <Form onSubmit={this.onSubmit}>
           <SearchInput
             onChange={this.handleInputChange}
             id="search"
             type="text"
           />
-        </form>
-        {this.props.results ? (
-          <Suggestions results={this.props.results} />
+          <SearchButton>Search</SearchButton>
+        </Form>
+        {searching ? (
+          <ListItemStyle>
+            <Suggestions results={this.props.results} />
+          </ListItemStyle>
         ) : (
-          "Searching..."
+          <Photos />
         )}
-      </>
+      </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log(state);
+  const { searchLoading, searchError, results } = state.search;
   return {
-    loading: state.search.loading,
-    error: state.search.error,
-    results: state.search.results
+    searchLoading: searchLoading,
+    searchError: searchError,
+    results: results
   };
 };
 

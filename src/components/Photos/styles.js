@@ -15,7 +15,7 @@ export const ListItemStyle = styled.div`
   }
   column-width: 320px;
   column-gap: 25px;
-  width: 100%;
+  padding: 10px;
   margin: 0px auto;
   .photo-item {
     margin-bottom: 10px;
@@ -31,6 +31,7 @@ export const ListItemStyle = styled.div`
     text-align: center;
     border-radius: 10px;
     width: 100%;
+    box-shadow: 6px 5px 8px rgba(0, 0, 0, 0.5);
   }
 `;
 

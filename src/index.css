@@ -1,0 +1,10 @@
+body,
+#root {
+  padding: 0;
+  margin: 0;
+  background-color: #343d46;
+}
+
+html {
+  scroll-behavior: smooth;
+}

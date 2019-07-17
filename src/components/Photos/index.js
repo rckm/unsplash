@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import { Link } from "react-router-dom";
 import { getPhotos } from "../store/photos/photos.action";
-// import PhotosContent from "./PhotosContent";
+
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 import { Loader, ListItemStyle } from "./styles";
 
@@ -15,24 +16,31 @@ const List = ({ data }) => {
 const ListItem = ({ photo }) => {
   return (
     <figure className="photo-item" key={photo.id}>
-      <img src={photo.urls.small} alt={photo.description} />
+      <LazyLoadImage
+        alt={photo.description}
+        effect="blur"
+        src={photo.urls.small}
+      />
     </figure>
   );
 };
 
 class Photos extends Component {
+  state = {
+    count: 100,
+    start: 1
+  };
+
   componentDidMount() {
-    this.props.getPhotos(1, 50);
+    const { count, start } = this.state;
+    this.props.getPhotos(start, count);
   }
 
   render() {
+    const photos = this.props.photos;
     return (
       <React.Fragment>
-        {this.props.loading === false ? (
-          <List data={this.props.photos} />
-        ) : (
-          <Loader />
-        )}
+        {this.props.loading === false ? <List data={photos} /> : <Loader />}
       </React.Fragment>
     );
   }

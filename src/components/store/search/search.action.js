@@ -1,24 +1,23 @@
 import { SEARCH_FAILURE, SEARCH_REQUEST, SEARCH_SUCCESS } from "../constants";
 import { unsplash } from "../../../config";
+import { toJson } from "unsplash-js";
 
 /**
- * @param {String} query То, что ввел пользователь
+ * @param {String} query То, что вводит пользователь
  * @param {Number} page Показать ему страницу из который нужно показать результат, по-умолчанию 1
  * @param {Number} perPage Показать кол-во элементов на странице, по-умолчанию 10
  */
-export function getSearchResult(query, page, perPage) {
+export function getSearchResult(query) {
   return dispatch => {
     dispatch({
       type: SEARCH_REQUEST
     });
 
     unsplash.search
-      .photos(query, page, perPage)
-      .then(res => res.json())
+      .photos(query, 1, 100)
+      .then(toJson)
       .then(res => {
-        if (res) {
-          dispatch(searchSuccess(res));
-        }
+        dispatch(searchSuccess(res.results));
       })
       .catch(error => {
         dispatch(searchFailure(error));

@@ -1,34 +1,55 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getSearchResult } from "../store/search/search.action";
-import { ListItemStyle } from "../Photos/styles";
+
 import Suggestions from "./Suggestions";
 import Photos from "../Photos";
 
-import { SearchInput, SearchButton, Form } from "./style";
+import { ListItemStyle, Loader } from "../Photos/styles";
+import { SearchInput, SearchButton, Form, Error } from "./style";
 
 class SearchBar extends Component {
   state = {
     query: "",
+    error: null,
     searching: false
   };
 
   handleInputChange = e => {
     this.setState({
-      query: e.target.value
+      query: e.target.value.trim()
     });
   };
 
   onSubmit = e => {
     e.preventDefault();
+    if (this.state.query === "") {
+      this.setState({
+        error: "Search field can not be empty! Please enter something"
+      });
+      return;
+    }
     this.setState({
-      searching: true
+      searching: true,
+      error: null
     });
-    this.props.getSearchResult(this.state.query, 1, 20);
+    this.props.getSearchResult(this.state.query);
   };
 
   render() {
-    const { searching } = this.state;
+    const { searchLoading, searchError, results } = this.props;
+    const { searching, error } = this.state;
+
+    console.log(results);
+
+    const PhotosByQuery = !searchLoading ? (
+      <ListItemStyle>
+        <Suggestions results={results} />
+      </ListItemStyle>
+    ) : (
+      <Loader />
+    );
+
     return (
       <React.Fragment>
         <Form onSubmit={this.onSubmit}>
@@ -37,15 +58,17 @@ class SearchBar extends Component {
             id="search"
             type="text"
           />
-          <SearchButton>Search</SearchButton>
+          <SearchButton>
+            <img
+              src="https://image.flaticon.com/icons/svg/49/49116.svg"
+              alt="search icon"
+            />
+          </SearchButton>
         </Form>
-        {searching ? (
-          <ListItemStyle>
-            <Suggestions results={this.props.results} />
-          </ListItemStyle>
-        ) : (
-          <Photos />
-        )}
+
+        {error && <Error>{error}</Error>}
+
+        {searching ? PhotosByQuery : <Photos />}
       </React.Fragment>
     );
   }

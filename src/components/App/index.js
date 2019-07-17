@@ -1,8 +1,9 @@
 import React from "react";
-// import Photos from "../Photos";
 import SearchBar from "../SearchBar";
 import { connect } from "react-redux";
 // import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import { AppStyle } from "./style";
 
 const App = props => {
   return (
@@ -11,18 +12,19 @@ const App = props => {
     //   <Route path="/photos" component={Photos} />
     //   <Route path="/search" component={SearchBar} />
     // </Router>
-    <>
-      <h1 align="center">Unsplash</h1>
+    <AppStyle>
+      <h1 className="title">Unsplash</h1>
       <SearchBar />
-    </>
+    </AppStyle>
   );
 };
 
 const mapStateToProps = state => {
+  const { loading, error, results } = state.search;
   return {
-    searchLoading: state.search.loading,
-    searchError: state.search.error,
-    results: state.search.results
+    searchLoading: loading,
+    searchError: error,
+    results: results
   };
 };
 

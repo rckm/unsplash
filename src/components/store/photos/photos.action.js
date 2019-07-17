@@ -1,5 +1,6 @@
 import { PHOTOS_FAILURE, PHOTOS_REQUEST, PHOTOS_SUCCESS } from "../constants";
 import { unsplash } from "../../../config";
+import { toJson } from "unsplash-js";
 
 export function getPhotos(page, perPage) {
   return dispatch => {
@@ -9,11 +10,9 @@ export function getPhotos(page, perPage) {
 
     unsplash.photos
       .listPhotos(page, perPage)
-      .then(res => res.json())
+      .then(toJson)
       .then(res => {
-        if (res) {
-          dispatch(photosSuccess([...res]));
-        }
+        dispatch(photosSuccess(res));
       })
       .catch(error => {
         dispatch(photosFailure(error));

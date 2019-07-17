@@ -1,12 +1,12 @@
-import { SEARCH_FAILURE, SEARCH_REQUEST, SEARCH_SUCCESS } from "../constants";
+import {
+  SEARCH_FAILURE,
+  SEARCH_REQUEST,
+  SEARCH_SUCCESS,
+  QUERY_SEARCH
+} from "../constants";
 import { unsplash } from "../../../config";
 import { toJson } from "unsplash-js";
 
-/**
- * @param {String} query То, что вводит пользователь
- * @param {Number} page Показать ему страницу из который нужно показать результат, по-умолчанию 1
- * @param {Number} perPage Показать кол-во элементов на странице, по-умолчанию 10
- */
 export function getSearchResult(query) {
   return dispatch => {
     dispatch({
@@ -17,6 +17,7 @@ export function getSearchResult(query) {
       .photos(query, 1, 100)
       .then(toJson)
       .then(res => {
+        console.log(res);
         dispatch(searchSuccess(res.results));
       })
       .catch(error => {
@@ -25,10 +26,19 @@ export function getSearchResult(query) {
   };
 }
 
-export function searchSuccess(results) {
+export function querySearch(query) {
+  return dispatch => {
+    dispatch({
+      type: QUERY_SEARCH,
+      query: query
+    });
+  };
+}
+
+export function searchSuccess(photos) {
   return {
     type: SEARCH_SUCCESS,
-    results: results
+    photos: photos
   };
 }
 

@@ -1,11 +1,5 @@
 import styled from "styled-components";
 
-export const PhotosContentStyle = styled.div`
-  position: fixed;
-  width: 30%;
-  background-color: #e3e3e3;
-`;
-
 export const ListItemStyle = styled.div`
   figure {
     margin-block-end: 0;

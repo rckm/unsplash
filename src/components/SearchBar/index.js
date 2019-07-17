@@ -1,29 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getSearchResult } from "../store/search/search.action";
+import { getSearchResult, querySearch } from "../store/search/search.action";
 
-import Suggestions from "./Suggestions";
+import List from "../List";
 import Photos from "../Photos";
 
-import { ListItemStyle, Loader } from "../Photos/styles";
-import { SearchInput, SearchButton, Form, Error } from "./style";
+import { Loader } from "../List/style";
+import { FormInput, FormButton, Form, Error, Title } from "./style";
 
 class SearchBar extends Component {
   state = {
-    query: "",
     error: null,
     searching: false
   };
 
   handleInputChange = e => {
-    this.setState({
-      query: e.target.value.trim()
-    });
+    this.props.querySearch(e.target.value);
   };
 
   onSubmit = e => {
     e.preventDefault();
-    if (this.state.query === "") {
+    if (this.props.query === "") {
       this.setState({
         error: "Search field can not be empty! Please enter something"
       });
@@ -33,57 +30,52 @@ class SearchBar extends Component {
       searching: true,
       error: null
     });
-    this.props.getSearchResult(this.state.query);
+    this.props.getSearchResult(this.props.query);
   };
 
   render() {
-    const { searchLoading, searchError, results } = this.props;
+    const { loading, photos, query } = this.props;
     const { searching, error } = this.state;
 
-    console.log(results);
-
-    const PhotosByQuery = !searchLoading ? (
-      <ListItemStyle>
-        <Suggestions results={results} />
-      </ListItemStyle>
-    ) : (
-      <Loader />
-    );
+    const PhotosByQuery = !loading ? <List data={photos} /> : <Loader />;
 
     return (
-      <React.Fragment>
+      <section>
+        <Title className="title">Unsplash</Title>
         <Form onSubmit={this.onSubmit}>
-          <SearchInput
+          <FormInput
             onChange={this.handleInputChange}
             id="search"
             type="text"
+            value={query}
           />
-          <SearchButton>
+          <FormButton>
             <img
               src="https://image.flaticon.com/icons/svg/49/49116.svg"
               alt="search icon"
             />
-          </SearchButton>
+          </FormButton>
         </Form>
 
         {error && <Error>{error}</Error>}
 
         {searching ? PhotosByQuery : <Photos />}
-      </React.Fragment>
+      </section>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { searchLoading, searchError, results } = state.search;
+  const { loading, error, photos, query } = state.photos;
   return {
-    searchLoading: searchLoading,
-    searchError: searchError,
-    results: results
+    loading,
+    error,
+    photos,
+    query
   };
 };
 
 export default connect(
   mapStateToProps,
-  { getSearchResult }
+  { getSearchResult, querySearch }
 )(SearchBar);

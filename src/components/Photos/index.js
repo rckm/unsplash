@@ -1,29 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getPhotos } from "../store/photos/photos.action";
+import List from "../List";
 
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
-
-import { Loader, ListItemStyle } from "./styles";
-
-const List = ({ data }) => {
-  let items = data.map(photo => <ListItem key={photo.id} photo={photo} />);
-
-  return <ListItemStyle>{items}</ListItemStyle>;
-};
-
-const ListItem = ({ photo }) => {
-  return (
-    <figure className="photo-item" key={photo.id}>
-      <LazyLoadImage
-        alt={photo.description}
-        effect="blur"
-        src={photo.urls.small}
-      />
-    </figure>
-  );
-};
+import { Loader } from "../List/style";
 
 class Photos extends Component {
   state = {
@@ -37,7 +17,7 @@ class Photos extends Component {
   }
 
   render() {
-    const photos = this.props.photos;
+    const {photos} = this.props;
     return (
       <React.Fragment>
         {this.props.loading === false ? <List data={photos} /> : <Loader />}
@@ -49,9 +29,9 @@ class Photos extends Component {
 const mapStateToProps = state => {
   const { loading, error, photos } = state.photos;
   return {
-    loading: loading,
-    error: error,
-    photos: photos
+    loading,
+    error,
+    photos
   };
 };
 

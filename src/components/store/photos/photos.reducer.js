@@ -15,7 +15,7 @@ const initialState = {
   loading: true,
   error: null,
   photos: [],
-  photo: null,
+  photo: {},
   query: ""
 };
 

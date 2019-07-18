@@ -17,6 +17,8 @@ export const FormInput = styled.input`
   background-color: #fff;
   transition: 0.5s all;
   margin: 20px 0px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
   &:focus {
     box-shadow: 6px 5px 8px rgba(0, 0, 0, 0.5);
   }

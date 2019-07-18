@@ -15,7 +15,7 @@ const PhotoInfo = props => {
       <p className="description">
         {description ? description : <span>There is no description</span>}
       </p>
-      {user && (
+      {user !== {} && (
         <ul className="uploader-info">
           <li>
             <img
@@ -32,6 +32,7 @@ const PhotoInfo = props => {
             <div className="uploader-info__links">
               {user.instagram_username && (
                 <a
+                  target="_blank"
                   href={`https://www.instagram.com/${user.instagram_username}`}
                 >
                   <img
@@ -41,7 +42,7 @@ const PhotoInfo = props => {
                   {user.instagram_username}
                 </a>
               )}
-              <a href={links.html}>
+              <a href={links.html} target="_blank">
                 <img
                   src="https://unsplash.com/assets/core/logo-black-df2168ed0c378fa5506b1816e75eb379d06cfcd0af01e07a2eb813ae9b5d7405.svg"
                   alt=""

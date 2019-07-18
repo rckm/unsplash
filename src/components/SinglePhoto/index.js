@@ -7,7 +7,9 @@ import { SinglePhotoStyle, PhotoSection, PhotoInfoStyle } from "./style";
 
 const PhotoInfo = props => {
   const history = props.history;
-  const { user = {}, links = {}, description } = props.info;
+  const { user, links, description } = props.info;
+
+  console.log(user);
 
   return (
     <PhotoInfoStyle>
@@ -15,7 +17,7 @@ const PhotoInfo = props => {
       <p className="description">
         {description ? description : <span>There is no description</span>}
       </p>
-      {user !== {} && (
+      {user && (
         <ul className="uploader-info">
           <li>
             <img
@@ -32,6 +34,7 @@ const PhotoInfo = props => {
             <div className="uploader-info__links">
               {user.instagram_username && (
                 <a
+                  rel="noopener noreferrer"
                   target="_blank"
                   href={`https://www.instagram.com/${user.instagram_username}`}
                 >
@@ -39,20 +42,24 @@ const PhotoInfo = props => {
                     src="https://img.icons8.com/ios/50/000000/instagram-new.png"
                     alt=""
                   />
-                  {user.instagram_username}
+                  @{user.instagram_username}
                 </a>
               )}
-              <a href={links.html} target="_blank">
+              <a rel="noopener noreferrer" target="_blank" href={links.html}>
                 <img
                   src="https://unsplash.com/assets/core/logo-black-df2168ed0c378fa5506b1816e75eb379d06cfcd0af01e07a2eb813ae9b5d7405.svg"
                   alt=""
                 />
-                Unsplash
+                {user.links.html.match(/@.*/i)[0]}
               </a>
             </div>
-            <h1>Bio</h1>
             {user.bio ? (
-              <p className="uploader-info__bio">{user.bio}</p>
+              <fieldset>
+                <legend>
+                  <h1>Bio</h1>
+                </legend>
+                <p className="uploader-info__bio">{user.bio}</p>
+              </fieldset>
             ) : (
               <p className="uploader-info__bio">There is no bio</p>
             )}
@@ -72,16 +79,18 @@ class SinglePhoto extends Component {
   }
 
   render() {
-    const { urls = {} } = this.props.photo;
+    const { urls } = this.props.photo;
 
     return (
       <SinglePhotoStyle>
         {!this.props.loading ? (
           <>
             <PhotoSection>
-              <figure className="photo-section__item">
-                <img src={urls.regular} alt="" />
-              </figure>
+              {urls && (
+                <figure className="photo-section__item">
+                  <img src={urls.regular} alt="" />
+                </figure>
+              )}
             </PhotoSection>
             <PhotoInfo history={this.props.history} info={this.props.photo} />
           </>

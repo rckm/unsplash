@@ -91,18 +91,23 @@ export const PhotoInfoStyle = styled.div`
     display: flex;
     align-items: center;
   }
+
+  @media (max-width: 475px) {
+    .uploader-info__links {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .uploader-info__links a {
+      padding-bottom: 20px;
+    }
+  }
+
   .uploader-info__links a {
     margin-right: 20px;
     display: flex;
     align-items: center;
     color: #ffffff;
     text-decoration: none;
-    opacity: 0.4;
-    transition: 0.5s all;
-  }
-
-  .uploader-info__links a:hover {
-    opacity: 1;
   }
 
   .uploader-info__links a img {
@@ -110,9 +115,12 @@ export const PhotoInfoStyle = styled.div`
     width: 20%;
   }
 
-  .uploader-info__bio {
-    border: 3px solid #4f5b66;
+  fieldset {
     border-radius: 7px;
-    padding: 20px 10px;
+    border-style: solid;
+  }
+
+  legend {
+    padding: 0px 10px;
   }
 `;
